@@ -1,0 +1,40 @@
+<?php
+
+/**
+ * Created by PhpStorm.
+ * User: radzeviciai
+ * Date: 19.1.27
+ * Time: 10.48
+ */
+
+use Symfony\Component\DependencyInjection\ContainerBuilder;
+
+require __DIR__ . '/vendor/autoload.php';
+
+/** Load dependency injection container */
+/** @var ContainerBuilder $containerBuilder */
+$containerBuilder = require_once 'bootstrap/app.php';
+
+if (empty($argv[1])) {
+    echo("missing path to file");
+    exit;
+}
+
+/** @var \CommissionCalculator\ServiceInterfaces\FileParser $fileParser */
+$fileParser = $containerBuilder->get(CommissionCalculator\ServiceInterfaces\FileParser::class);
+
+$fileParser->setPath($argv[1]);
+$fileParser->parse();
+
+/** @var \CommissionCalculator\ServiceInterfaces\CommissionsCalculator $commissionCalculator */
+$commissionCalculator = $containerBuilder->get(CommissionCalculator\ServiceInterfaces\CommissionsCalculator::class);
+
+/** @var \CommissionCalculator\ServiceInterfaces\Logger $logger */
+$logger = $containerBuilder->get(CommissionCalculator\ServiceInterfaces\Logger::class);
+
+foreach ($fileParser->getTransactions() as $transaction) {
+    $commissions = $commissionCalculator->calculateCommissionsForTransaction($transaction);
+    $logger->log($commissions);
+}
+
+$path = $argv[1];
