@@ -27,7 +27,6 @@ class NaturalCashOutCommissionsCalculator implements NaturalCashOutCommissionsCa
 
         $notCommissionablePart = $this->getRemainigNotCommissionablePart($user, $transaction);
 
-
         $notCommissionablePartInCurrency = $this->currencyConverter->convertFromEUR($notCommissionablePart,
             $transaction->getCurrencyCode());
 
@@ -36,18 +35,20 @@ class NaturalCashOutCommissionsCalculator implements NaturalCashOutCommissionsCa
             $commissionableAmount = $transaction->getAmount() - $notCommissionablePartInCurrency;
         }
 
+        // update user info. After update user info should represent state after this transaction
         if ($this->isTransactionInNewWeek($user, $transaction)) {
+            // We reset user info counters
             $user->setLastTransactionDate($transaction->getDate());
             $user->setCashOutTotalForLastKnownWeek($this->currencyConverter->convertToEUR($transaction->getAmount(),
                 $transaction->getCurrencyCode()));
             $user->setCashOutTimesForLastKnownWeek(1);
         } else {
+            // We increase user info counters
             $user->setLastTransactionDate($transaction->getDate());
             $user->setCashOutTotalForLastKnownWeek($user->getCashOutTotalForLastKnownWeek() + $this->currencyConverter->convertToEUR($transaction->getAmount(),
                     $transaction->getCurrencyCode()));
             $user->setCashOutTimesForLastKnownWeek($user->getCashOutTimesForLastKnownWeek() + 1);
         }
-
 
         $this->setUser($user);
 
@@ -91,7 +92,6 @@ class NaturalCashOutCommissionsCalculator implements NaturalCashOutCommissionsCa
         if ($user->getCashOutTotalForLastKnownWeek() >= self::CASH_OUT_NATURAL_FREE_FROM_COMMISSION_AMOUNT) {
             return 0;
         }
-
 
         return self::CASH_OUT_NATURAL_FREE_FROM_COMMISSION_AMOUNT - $user->getCashOutTotalForLastKnownWeek();
     }

@@ -16,5 +16,5 @@ Tests can be run by typing
 ./vendor/bin/phpunit
 ```
 ##Contacts
-If you like what you see, and you can contact me through my [LinkedIn](https://www.linkedin.com/in/gediminas-radzevičius-51a04494).
+If you like what you see, you can contact me through my [LinkedIn](https://www.linkedin.com/in/gediminas-radzevičius-51a04494).
 I'm always open to new opportunities. 
