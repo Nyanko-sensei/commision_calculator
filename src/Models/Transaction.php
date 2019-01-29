@@ -1,4 +1,5 @@
 <?php
+
 namespace CommissionCalculator\Models;
 
 use Carbon\Carbon;
@@ -7,23 +8,16 @@ class Transaction
 {
     /** @var Carbon */
     private $date;
-
     /** @var int */
     private $userId;
-
     /** @var string; */
     private $userType;
-
     /** @var string */
     private $operationType;
-
     /** @var float; */
     private $amount;
-
     /** @var string; */
     private $currencyCode;
-
-
 
     /**
      * @return Carbon

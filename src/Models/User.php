@@ -1,4 +1,5 @@
 <?php
+
 namespace CommissionCalculator\Models;
 
 use Carbon\Carbon;
@@ -7,13 +8,10 @@ class User
 {
     /** @var  int */
     private $id;
-
     /** @var  Carbon|null */
     private $lastTransactionDate;
-
     /** @var  float */
     private $cashOutTotalForLastKnownWeek;
-
     /** @var  int */
     private $cashOutTimesForLastKnownWeek;
 

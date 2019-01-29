@@ -1,4 +1,5 @@
 <?php
+
 namespace CommissionCalculator\Services;
 
 use CommissionCalculator\ServiceInterfaces\CurrencyConverter as CurrencyConverterInterface;

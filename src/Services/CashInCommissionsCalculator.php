@@ -1,4 +1,5 @@
 <?php
+
 namespace CommissionCalculator\Services;
 
 use CommissionCalculator\Models\Transaction;
@@ -7,8 +8,7 @@ use CommissionCalculator\ServiceInterfaces\CashInCommissionsCalculator as CashIn
 class CashInCommissionsCalculator implements CashInCommissionsCalculatorInterface
 {
     const CASH_IN_COMMISSION_RATE = 0.0003;
-    const CASH_IN_COMMISSION_MAX  = 5;
-
+    const CASH_IN_COMMISSION_MAX = 5;
     /**
      * @var CurrencyConverter
      */
@@ -25,11 +25,8 @@ class CashInCommissionsCalculator implements CashInCommissionsCalculatorInterfac
 
         if ($this->IsAboveMaxCashInCommissions($transaction->getCurrencyCode(), $commissions)) {
 
-            $commissions = $this->currencyConverter->convertFromEUR(
-                self::CASH_IN_COMMISSION_MAX,
-                $transaction->getCurrencyCode()
-            );
-
+            $commissions = $this->currencyConverter->convertFromEUR(self::CASH_IN_COMMISSION_MAX,
+                $transaction->getCurrencyCode());
         }
 
         return $commissions;
@@ -43,9 +40,6 @@ class CashInCommissionsCalculator implements CashInCommissionsCalculatorInterfac
      */
     private function IsAboveMaxCashInCommissions(string $currencyCode, $commissions): bool
     {
-        return $this->currencyConverter->convertToEUR(
-                $commissions,
-                $currencyCode
-            ) > self::CASH_IN_COMMISSION_MAX;
+        return $this->currencyConverter->convertToEUR($commissions, $currencyCode) > self::CASH_IN_COMMISSION_MAX;
     }
 }

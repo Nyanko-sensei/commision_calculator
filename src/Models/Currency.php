@@ -1,20 +1,18 @@
 <?php
-namespace CommissionCalculator\Models;
 
-use Carbon\Carbon;
+namespace CommissionCalculator\Models;
 
 class Currency
 {
     /** @var  string */
     private $code;
-
     /** @var float */
     private $rate;
-
     /** @var  int */
     private $decimalPlaces;
 
-    public static function createWithData($code, $rate, $decimalPlaces) {
+    public static function createWithData($code, $rate, $decimalPlaces)
+    {
         $currency = new self();
         $currency->setCode($code);
         $currency->setRate($rate);

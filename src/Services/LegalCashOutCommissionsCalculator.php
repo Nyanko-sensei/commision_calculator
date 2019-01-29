@@ -1,4 +1,5 @@
 <?php
+
 namespace CommissionCalculator\Services;
 
 use CommissionCalculator\Models\Transaction;
@@ -8,7 +9,6 @@ class LegalCashOutCommissionsCalculator implements LegalCashOutCommissionsCalcul
 {
     const CASH_OUT_RATE = 0.003;
     const CASH_OUT_LEGAL_COMMISSION_MIN = 0.5;
-
     /**
      * @var CurrencyConverter
      */
@@ -24,10 +24,8 @@ class LegalCashOutCommissionsCalculator implements LegalCashOutCommissionsCalcul
         $commissions = $transaction->getAmount() * self::CASH_OUT_RATE;
 
         if ($this->isBelowMinCashOutCommissions($transaction->getCurrencyCode(), $commissions)) {
-            $commissions = $this->currencyConverter->convertFromEUR(
-                self::CASH_OUT_LEGAL_COMMISSION_MIN,
-                $transaction->getCurrencyCode()
-            );
+            $commissions = $this->currencyConverter->convertFromEUR(self::CASH_OUT_LEGAL_COMMISSION_MIN,
+                $transaction->getCurrencyCode());
         }
 
         return $commissions;
@@ -35,9 +33,7 @@ class LegalCashOutCommissionsCalculator implements LegalCashOutCommissionsCalcul
 
     private function isBelowMinCashOutCommissions($currencyCode, $commissions)
     {
-        return $this->currencyConverter->convertToEUR(
-                $commissions,
-                $currencyCode
-            ) < self::CASH_OUT_LEGAL_COMMISSION_MIN;
+        return $this->currencyConverter->convertToEUR($commissions,
+                $currencyCode) < self::CASH_OUT_LEGAL_COMMISSION_MIN;
     }
 }
